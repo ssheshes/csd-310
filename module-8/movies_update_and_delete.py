@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 
+###log into mySQL
 config = {
     "user": "root",
     "password": "Fol5089**",
@@ -12,11 +13,15 @@ config = {
 db = mysql.connector.connect(**config)
 cursor = db.cursor()
 
+###function to pull from mySQL database
 def show_films(cursor, title):
     try:
+        ###pulls values from tables in mySQL into a new table to view with new column names
         cursor.execute("select film_name as 'Name', film_director as 'Director', genre_name as 'Genre', studio_name as 'Studio Name' from film INNER JOIN genre ON film.genre_id=genre.genre_id INNER JOIN studio ON film.studio_id=studio.studio_id;")
         films = cursor.fetchall()
         print("\n== {} ==".format(title))
+
+        ###output
         for film in films:
             print("Film Name: {}\nDirector: {}\nGenre: {}\nStudio Name: {}\n".format(film[0], film[1], film[2], film[3]))
 
